@@ -38,8 +38,8 @@ exports.allPlayers = function(req, res) {
 //Returns an error when no routing param given
 exports.player = function(req, res) {
     try {
-        if(req.query['IGN'] != undefined){
-            let queries = req.query['IGN']
+        if(req.params['IGN'] != undefined){
+            let queries = req.params['IGN']
             playerModel.findAll({
                 where: {
                     'IGN': queries
