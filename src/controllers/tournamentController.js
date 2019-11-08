@@ -22,36 +22,28 @@ exports.allTournaments = function(req, res) {
 }
 
 //Returns all Dark Draft tournaments name and date only
-exports.darkTournaments = function(req, res) {
-    tournamentModel.findAll({
-        attributes: ['Name', 'Date'],
-        where: {
-            Format: 'Dark Draft'
+exports.tournamentsByFormat = function(req, res) {
+    try{
+        if(req.params['format'] != undefined){
+            let query = req.params['format']
+            query = query.replace(/-/g, ' ')
+            tournamentModel.findAll({
+                attributes: ['Name', 'Date'],
+                where:{
+                    Format: query
+                }
+            }).then(results => {
+                res.json(results)
+            })
         }
-    })
-    .then(results => {
-        res.json(results)
-    }).catch(error => console.log(error));
-}
-
-//Returns all constructed tournaments by name and date only
-exports.constructedTournaments = function(req, res) {
-    tournamentModel.findAll({
-        attributes: ['Name', 'Date'],
-        where: {
-            Format: 'Constructed'
-        }
-    })
-    .then(results => {
-        res.json(results)
-    }).catch(error => console.log(error));
+    } catch(error) { console.log(error) };
 }
 
 //Returns a queried tournament with all the matches played
 exports.tournament = function(req, res) {
     try {
-        if(req.query['Name'] != undefined){
-            query = req.query['Name']
+        if(req.params['Name'] != undefined){
+            query = req.params['Name']
             query = query.replace(/-/g, ' ')
             tournamentModel.findAll({
                 where: {
