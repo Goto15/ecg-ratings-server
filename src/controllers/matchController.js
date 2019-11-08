@@ -23,8 +23,8 @@ exports.allMatches = function(req, res) {
 
 exports.playerMatches = function(req, res) {
     try {
-        if(req.query['IGN'] != undefined){
-            query = req.query['IGN']
+        if(req.params['IGN'] != undefined){
+            query = req.params['IGN']
             matchModel.findAll({
                 where: {
                     [Op.or]: {
@@ -41,8 +41,8 @@ exports.playerMatches = function(req, res) {
 
 exports.roundMatches = function(req, res) {
     try {
-        if(req.query['Round'] != undefined){
-            query = req.query['Round']
+        if(req.params['num'] != undefined){
+            query = req.params['num']
             matchModel.findAll({
                 where: {
                     'Round': query
