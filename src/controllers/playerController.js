@@ -16,20 +16,20 @@ exports.allPlayers = function(req, res) {
         attributes: ['IGN', 'Elo', 'IRL_Name'],
     })
     .then(Player => {
-        var all_players = []
-
-        for(each in Player){
-            //excepts the player named "bye"
-            if(Player[each]['IGN'] == 'bye'){
-                continue
-            }
-            all_players.push(Player[each]['IGN'])
-        }
+        all_players = JSON.stringify(Player)
+        all_players = JSON.parse(all_players)
 
         //Sort by alphabetical case insensitve.
         all_players = all_players.sort(function (a,b){
-            return a.toLowerCase().localeCompare(b.toLowerCase());
+            return a.IGN.toLowerCase().localeCompare(b.IGN.toLowerCase());
         });
+
+        //Removes the bye player placeholder
+        for(i in all_players){
+            if(all_players[i].IGN == 'bye'){
+                all_players.splice(i, 1)
+            }
+        }
 
         res.json(all_players)
     }).catch(error => console.log(error));
